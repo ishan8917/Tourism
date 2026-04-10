@@ -41,7 +41,7 @@ export default function PostsPage() {
       setPosts(JSON.parse(saved));
     } else {
       localStorage.setItem('tourism_posts', JSON.stringify(INITIAL_MOCK));
-      // @ts-ignore
+      // @ts-expect-error
       setPosts(INITIAL_MOCK);
     }
   }, [])
