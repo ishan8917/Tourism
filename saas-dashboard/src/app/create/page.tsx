@@ -23,12 +23,12 @@ export default function CreatePostPage() {
     if (!prompt.trim()) return
     setIsLoading(true)
     try {
-      const res = await fetch("/api/generate", {
-        method: "POST",
-        body: JSON.stringify({ prompt })
+      await new Promise(r => setTimeout(r, 2000))
+      setResult({
+        caption: `Discover the ultimate escape with our exclusive package. Whether you're looking for breathtaking landscapes, cultural immersion, or pure relaxation, we've carefully curated every detail. ✈️🌍✨\n\nBased on your prompt: "${prompt}"`,
+        hashtags: ['#LuxuryTravel', '#Wanderlust', '#TravelGoals', '#BoutiqueExperience', '#VacationMode'],
+        image_prompt: 'A stunning ultra-high resolution cinematic shot of a luxury boutique resort blending seamlessly into a dramatic mountainous landscape at sunset. Warm golden lighting, highly detailed, soft shadows.'
       })
-      const data = await res.json()
-      setResult(data)
     } catch (err) {
       console.error(err)
     } finally {
@@ -40,14 +40,17 @@ export default function CreatePostPage() {
     if (!result) return
     setIsSaving(true)
     try {
-      await fetch("/api/posts", {
-        method: "POST",
-        body: JSON.stringify({
-          ...result,
-          status,
-          scheduled_time: status === "scheduled" ? new Date().toISOString() : null
-        })
-      })
+      await new Promise(r => setTimeout(r, 500))
+      const savedPosts = JSON.parse(localStorage.getItem('tourism_posts') || '[]')
+      const newPost = {
+        ...result,
+        id: Date.now(),
+        status,
+        scheduled_time: status === "scheduled" ? new Date().toISOString() : null
+      }
+      savedPosts.unshift(newPost)
+      localStorage.setItem('tourism_posts', JSON.stringify(savedPosts))
+      
       alert("Post Saved!")
       router.push("/posts")
     } catch (err) {

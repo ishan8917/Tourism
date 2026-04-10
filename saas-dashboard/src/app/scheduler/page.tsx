@@ -14,7 +14,10 @@ export default function SchedulerPage() {
   const [posts, setPosts] = useState<Post[]>([])
 
   useEffect(() => {
-    fetch("/api/posts").then(res => res.json()).then(setPosts)
+    const saved = localStorage.getItem('tourism_posts');
+    if (saved) {
+      setPosts(JSON.parse(saved));
+    }
   }, [])
 
   const scheduled = posts.filter(p => p.status === "scheduled" && p.scheduled_time)

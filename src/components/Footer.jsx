@@ -28,7 +28,7 @@ export default function Footer() {
               <li><a href="#destinations" className="hover:text-gold-400 transition-colors">Collections</a></li>
               <li><a href="#why-us" className="hover:text-gold-400 transition-colors">The Experience</a></li>
               <li><a href="#contact" className="hover:text-gold-400 transition-colors">Inquire</a></li>
-              <li><a href="http://localhost:3000" className="hover:text-gold-400 transition-colors">Agent Hub</a></li>
+              <li><a href="/Tourism/dashboard" className="hover:text-gold-400 transition-colors">Agent Hub</a></li>
             </ul>
           </div>
           

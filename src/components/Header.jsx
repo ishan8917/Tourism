@@ -17,7 +17,7 @@ export default function Header() {
     { name: 'Curated Journeys', href: '#destinations' },
     { name: 'The Experience', href: '#why-us' },
     { name: 'Inquire', href: '#contact' },
-    { name: 'Agent Hub', href: 'http://localhost:3000' },
+    { name: 'Agent Hub', href: '/Tourism/dashboard' },
   ];
 
   return (

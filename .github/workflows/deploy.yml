@@ -28,10 +28,16 @@ jobs:
         with:
           node-version: 20
           cache: 'npm'
-      - name: Install dependencies
+      - name: Install dependencies (Root)
         run: npm ci
       - name: Build Main Site
         run: npm run build
+      - name: Install dependencies (Dashboard)
+        run: cd saas-dashboard && npm ci
+      - name: Build Dashboard
+        run: cd saas-dashboard && npm run build
+      - name: Merge Dashboard into Dist
+        run: mv saas-dashboard/out dist/dashboard
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Upload artifact

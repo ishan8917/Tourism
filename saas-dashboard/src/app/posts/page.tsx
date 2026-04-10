@@ -12,20 +12,45 @@ type Post = {
   status: "draft" | "scheduled" | "posted";
 }
 
+const INITIAL_MOCK = [
+  {
+    id: 1,
+    caption: "Experience the pristine beaches and crystal clear waters of the Maldives. Our exclusive package offers an overwater bungalow with private access to the ocean.",
+    hashtags: ["#Maldives", "#Luxury", "#Honeymoon", "#OceanFront"],
+    image_prompt: "Cinematic shot of a luxury overwater bungalow in the Maldives at sunset.",
+    status: "posted",
+    scheduled_time: null
+  },
+  {
+    id: 2,
+    caption: "Get ready for the ultimate Alpine adventure. Skiing, gourmet dining, and private chalet accommodations await you in Switzerland.",
+    hashtags: ["#SwissAlps", "#SkiTrip", "#WinterWonderland"],
+    image_prompt: "A luxurious log cabin in the snowy Swiss Alps with a warm glowing fireplace visible through the window.",
+    status: "scheduled",
+    scheduled_time: new Date(Date.now() + 86400000).toISOString()
+  }
+];
+
 export default function PostsPage() {
   const [posts, setPosts] = useState<Post[]>([])
   const [search, setSearch] = useState("")
 
   useEffect(() => {
-    fetch("/api/posts").then(res => res.json()).then(setPosts)
+    const saved = localStorage.getItem('tourism_posts');
+    if (saved) {
+      setPosts(JSON.parse(saved));
+    } else {
+      localStorage.setItem('tourism_posts', JSON.stringify(INITIAL_MOCK));
+      // @ts-ignore
+      setPosts(INITIAL_MOCK);
+    }
   }, [])
 
   const handleDelete = async (id: number) => {
-    await fetch("/api/posts", {
-      method: "DELETE",
-      body: JSON.stringify({ id })
-    })
-    setPosts(posts.filter(p => p.id !== id))
+    if (!confirm("Are you sure?")) return;
+    const newPosts = posts.filter(p => p.id !== id);
+    setPosts(newPosts);
+    localStorage.setItem('tourism_posts', JSON.stringify(newPosts));
   }
 
   const filteredPosts = posts.filter(p => 
