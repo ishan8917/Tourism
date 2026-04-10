@@ -4,16 +4,16 @@ export default function CTA() {
   return (
     <section className="py-32 relative overflow-hidden bg-primary-900 border-y border-gold-400/20">
       <div className="absolute inset-0 z-0 opacity-40">
-        <img 
-          src="/images/hero_background.png" 
-          alt="Luxury background" 
+        <img
+          src="images/hero_background.png"
+          alt="Luxury background"
           className="w-full h-full object-cover scale-105"
         />
         <div className="absolute inset-0 bg-primary-900/80 mix-blend-multiply" />
       </div>
 
       <div className="container mx-auto px-6 relative z-10 text-center max-w-4xl">
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}

@@ -4,17 +4,17 @@ const destinations = [
   {
     title: 'European Elegance',
     description: 'A curated journey through the continent\'s most exclusive enclaves.',
-    image: '/images/international_tour.png',
+    image: 'images/international_tour.png',
   },
   {
     title: 'The Hidden Maldives',
     description: 'Private atolls and absolute seclusion.',
-    image: '/images/honeymoon_package.png',
+    image: 'images/honeymoon_package.png',
   },
   {
     title: 'Alpine Ascents',
     description: 'Luxury basecamps and tailored alpine adventures.',
-    image: '/images/adventure_trip.png',
+    image: 'images/adventure_trip.png',
   }
 ];
 
@@ -40,14 +40,14 @@ export default function Destinations() {
               className="group cursor-pointer"
             >
               <div className="relative aspect-[3/4] overflow-hidden mb-6">
-                <img 
-                  src={dest.image} 
-                  alt={dest.title} 
+                <img
+                  src={dest.image}
+                  alt={dest.title}
                   className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-primary-900/80 via-transparent to-transparent opacity-60 mix-blend-multiply" />
                 <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-primary-900 via-primary-900/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                
+
                 <div className="absolute inset-4 border border-white/20 scale-95 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-700" />
               </div>
 
@@ -60,11 +60,11 @@ export default function Destinations() {
             </motion.div>
           ))}
         </div>
-        
+
         <div className="mt-20 text-center">
-            <a href="#contact" className="inline-block border-b border-gold-500 text-primary-900 uppercase tracking-widest text-xs pb-2 hover:text-gold-600 hover:border-gold-600 transition-colors">
-              Request the Full Lookbook
-            </a>
+          <a href="#contact" className="inline-block border-b border-gold-500 text-primary-900 uppercase tracking-widest text-xs pb-2 hover:text-gold-600 hover:border-gold-600 transition-colors">
+            Request the Full Lookbook
+          </a>
         </div>
       </div>
     </section>

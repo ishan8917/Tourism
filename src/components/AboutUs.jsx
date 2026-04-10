@@ -13,18 +13,18 @@ export default function AboutUs() {
             className="relative"
           >
             <div className="relative overflow-hidden aspect-[4/5] max-h-[800px]">
-              <img 
-                src="/images/domestic_tour.png" 
-                alt="Beautiful Landscape" 
+              <img
+                src="images/domestic_tour.png"
+                alt="Beautiful Landscape"
                 className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-primary-900/10 mix-blend-multiply" />
             </div>
-            
+
             {/* The Badge */}
             <div className="absolute -bottom-10 -right-10 bg-primary-900 text-gold-400 p-10 border border-gold-400/20 max-w-[280px] hidden sm:block">
-               <div className="text-sm tracking-widest uppercase mb-4 font-light">A Boutique Promise</div>
-               <div className="font-serif text-2xl italic leading-snug text-white">Trust is earned in the details we carefully perfect.</div>
+              <div className="text-sm tracking-widest uppercase mb-4 font-light">A Boutique Promise</div>
+              <div className="font-serif text-2xl italic leading-snug text-white">Trust is earned in the details we carefully perfect.</div>
             </div>
           </motion.div>
 

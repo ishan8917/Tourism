@@ -6,12 +6,12 @@ export default function Hero() {
     <section className="relative h-screen min-h-[700px] flex items-center justify-center overflow-hidden bg-primary-900">
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
-        <motion.img 
+        <motion.img
           initial={{ scale: 1.1 }}
           animate={{ scale: 1 }}
           transition={{ duration: 2, ease: "easeOut" }}
-          src="/images/hero_background.png" 
-          alt="Coastal Mountain Landscape at Sunset" 
+          src="images/hero_background.png"
+          alt="Coastal Mountain Landscape at Sunset"
           className="w-full h-full object-cover opacity-70"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-primary-900 via-primary-900/40 to-transparent" />
@@ -47,7 +47,7 @@ export default function Hero() {
       </div>
 
       {/* Scroll indicator */}
-      <motion.div 
+      <motion.div
         className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -55,7 +55,7 @@ export default function Hero() {
       >
         <span className="text-white/40 text-[10px] tracking-[0.2em] uppercase">Scroll</span>
         <div className="w-[1px] h-16 bg-white/10 overflow-hidden relative">
-          <motion.div 
+          <motion.div
             className="w-full h-1/2 bg-gold-400 absolute top-0"
             animate={{ top: ['-50%', '100%'] }}
             transition={{ repeat: Infinity, duration: 2, ease: 'linear' }}
