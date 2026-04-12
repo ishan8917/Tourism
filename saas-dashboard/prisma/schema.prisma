@@ -1,0 +1,48 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Customer {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  phone     String?
+  status    String
+  ltv       Float    @default(0)
+  trips     Trip[]
+  createdAt DateTime @default(now())
+}
+
+model Trip {
+  id          String   @id @default(uuid())
+  destination String
+  startDate   DateTime
+  endDate     DateTime
+  pax         Int
+  value       Float
+  status      String
+  customerId  String
+  customer    Customer @relation(fields: [customerId], references: [id])
+}
+
+model Post {
+  id            String   @id @default(uuid())
+  caption       String
+  hashtags      String
+  imageUrl      String
+  status        String
+  scheduledTime DateTime?
+  createdAt     DateTime @default(now())
+}
+
+model Agent {
+  id     String @id @default(uuid())
+  name   String
+  role   String
+  status String
+}

@@ -43,8 +43,25 @@ export default function PostsPage() {
       localStorage.setItem('tourism_posts', JSON.stringify(INITIAL_MOCK));
       setPosts(INITIAL_MOCK as Post[]);
     }
+    fetchPosts();
   }, [])
+  const fetchPosts = async () => {
+    const res = await fetch("/api/posts")
+    const data = await res.json()
+    setPosts(data)
+  }
+  const createPost = async () => {
+    await fetch("/api/posts", {
+      method: "POST",
+      body: JSON.stringify({
+        caption: "New Goa Trip 🌴",
+        hashtags: "#travel",
+        imageUrl: "https://example.com/img.jpg"
+      })
+    })
 
+    fetchPosts() // refresh UI
+  }
   const handleDelete = async (id: number) => {
     if (!confirm("Are you sure?")) return;
     const newPosts = posts.filter(p => p.id !== id);
@@ -52,8 +69,8 @@ export default function PostsPage() {
     localStorage.setItem('tourism_posts', JSON.stringify(newPosts));
   }
 
-  const filteredPosts = posts.filter(p => 
-    p.caption.toLowerCase().includes(search.toLowerCase()) || 
+  const filteredPosts = posts.filter(p =>
+    p.caption.toLowerCase().includes(search.toLowerCase()) ||
     p.hashtags.some(h => h.toLowerCase().includes(search.toLowerCase()))
   )
 
@@ -71,12 +88,17 @@ export default function PostsPage() {
         <div>
           <h1 className="text-3xl font-bold tracking-tight text-foreground mb-2">Content Library</h1>
           <p className="text-gray-500">Manage your generated drafts and scheduled posts.</p>
+          {posts.map((post: any) => (
+            <div key={post.id}>
+              <p>{post.caption}</p>
+            </div>
+          ))}
         </div>
-        
+
         <div className="relative w-full sm:w-72">
           <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-          <Input 
-            placeholder="Search posts..." 
+          <Input
+            placeholder="Search posts..."
             className="pl-9 h-10 border-gray-200"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
@@ -98,7 +120,7 @@ export default function PostsPage() {
                 {post.caption}
               </p>
             </div>
-            
+
             <div>
               <div className="flex flex-wrap gap-2 mb-6">
                 {post.hashtags.slice(0, 3).map((tag, i) => (
@@ -112,7 +134,7 @@ export default function PostsPage() {
                   </span>
                 )}
               </div>
-              
+
               <div className="flex items-center gap-2 border-t border-gray-100 pt-4">
                 <button className="flex-1 flex items-center justify-center gap-2 text-xs font-medium text-gray-600 hover:text-primary hover:bg-primary/5 py-2 rounded-lg transition-colors">
                   <Edit2 className="h-3.5 w-3.5" /> Edit
@@ -120,12 +142,15 @@ export default function PostsPage() {
                 <button className="flex-1 flex items-center justify-center gap-2 text-xs font-medium text-gray-600 hover:text-primary hover:bg-primary/5 py-2 rounded-lg transition-colors">
                   <Calendar className="h-3.5 w-3.5" /> Schedule
                 </button>
-                <button 
+                <button className="flex-1 flex items-center justify-center gap-2 text-xs font-medium text-gray-600 hover:text-primary hover:bg-primary/5 py-2 rounded-lg transition-colors" onClick={createPost}>Create Post</button>
+                <button
                   onClick={() => handleDelete(post.id)}
                   className="flex items-center justify-center text-gray-400 hover:text-red-500 hover:bg-red-50 p-2 rounded-lg transition-colors"
                 >
+
                   <Trash2 className="h-4 w-4" />
                 </button>
+
               </div>
             </div>
           </div>

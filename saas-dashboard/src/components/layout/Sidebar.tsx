@@ -2,12 +2,12 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { 
-  Bot, 
-  PenSquare, 
-  Files, 
-  Calendar, 
-  BarChart3, 
+import {
+  Bot,
+  PenSquare,
+  Files,
+  Calendar,
+  BarChart3,
   Settings,
   Users,
   Map,
@@ -20,7 +20,7 @@ const navigationGroups = [
   {
     label: "Marketing",
     items: [
-      { name: "Create Post", href: "/create", icon: PenSquare },
+      { name: "Create Post", href: "/create-post", icon: PenSquare },
       { name: "Posts", href: "/posts", icon: Files },
       { name: "Scheduler", href: "/scheduler", icon: Calendar },
       { name: "Analytics", href: "/analytics", icon: BarChart3 },
@@ -69,8 +69,8 @@ export function Sidebar() {
                   href={item.href}
                   className={cn(
                     "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-all duration-200",
-                    isActive 
-                      ? "bg-white text-primary shadow-sm ring-1 ring-border-light" 
+                    isActive
+                      ? "bg-white text-primary shadow-sm ring-1 ring-border-light"
                       : "text-gray-500 hover:bg-gray-100 hover:text-gray-900"
                   )}
                 >
