@@ -34,7 +34,7 @@ jobs:
       - name: Build Main Site
         run: npm run build
       - name: Install dependencies (Dashboard)
-        run: cd saas-dashboard && npm ci
+        run: cd saas-dashboard && npm install
       - name: Build Dashboard
         run: cd saas-dashboard && npm run build
       - name: Merge Dashboard into Dist
