@@ -17,7 +17,7 @@ export default function Header() {
     { name: 'Curated Journeys', href: '#destinations' },
     { name: 'The Experience', href: '#why-us' },
     { name: 'Inquire', href: '#contact' },
-    { name: 'Agent Hub', href: '/Tourism/dashboard' },
+    { name: 'Agent Hub', href: 'http://localhost:3000/Tourism/dashboard/create-post' },
   ];
 
   return (
@@ -63,9 +63,9 @@ export default function Header() {
             </button>
             <nav className="flex flex-col gap-8 text-xl font-serif text-white tracking-widest">
               {navLinks.map((link, i) => (
-                <motion.a 
-                  key={link.name} 
-                  href={link.href} 
+                <motion.a
+                  key={link.name}
+                  href={link.href}
                   onClick={() => setIsMobileMenuOpen(false)}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -75,8 +75,8 @@ export default function Header() {
                   {link.name}
                 </motion.a>
               ))}
-              <motion.a 
-                href="#contact" 
+              <motion.a
+                href="#contact"
                 className="mt-8 px-6 py-4 text-center bg-gold-500 text-black uppercase tracking-widest text-sm"
                 onClick={() => setIsMobileMenuOpen(false)}
                 initial={{ opacity: 0, y: 20 }}
