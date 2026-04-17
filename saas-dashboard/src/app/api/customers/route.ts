@@ -3,9 +3,7 @@ import { NextResponse } from 'next/server'
 
 // GET all customers
 export async function GET() {
-    const customers = await prisma.customer.findMany({
-        include: { trips: true }
-    })
+    const customers = await prisma.customer.findMany()
     return NextResponse.json(customers)
 }
 
@@ -14,7 +12,14 @@ export async function POST(req: Request) {
     const body = await req.json()
 
     const customer = await prisma.customer.create({
-        data: body
+        data:{
+            name: body.name,
+            email: body.email,
+            phone: body.phone,
+            status: "New Lead",
+            ltv:0
+
+        }
     })
 
     return NextResponse.json(customer)
