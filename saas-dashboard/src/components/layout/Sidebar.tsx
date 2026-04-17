@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import { motion } from "framer-motion"
 import {
   Bot,
   PenSquare,
@@ -47,9 +48,10 @@ export function Sidebar() {
   const pathname = usePathname()
 
   return (
-    <div className="flex h-full w-64 flex-col border-r border-border-light bg-sidebar-bg px-4 py-8 overflow-y-auto">
+    <div className="flex h-full w-64 flex-col border-r border-white/50 bg-white/70 backdrop-blur-2xl shadow-[4px_0_24px_rgb(0,0,0,0.02)] px-4 py-8 overflow-y-auto z-10">
       <div className="flex items-center gap-3 px-2 mb-8">
-        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-sm">
+        <div className="flex h-10 w-10 relative items-center justify-center rounded-xl bg-gradient-to-tr from-primary to-blue-500 text-white shadow-lg shadow-primary/30">
+          <div className="absolute inset-0 rounded-xl ring-1 ring-white/40 inset-ring pointer-events-none" />
           <Bot className="h-6 w-6" />
         </div>
         <span className="text-lg font-bold tracking-tight text-foreground">AI Travel Agent</span>
@@ -64,19 +66,28 @@ export function Sidebar() {
             {group.items.map((item) => {
               const isActive = pathname === item.href || (pathname === '/' && item.href === '/create')
               return (
+              <motion.div
+                key={item.name}
+                whileHover={{ x: 4, backgroundColor: "rgba(255,255,255,1)" }}
+                whileTap={{ scale: 0.98 }}
+                className={cn(
+                  "rounded-lg overflow-hidden",
+                  isActive ? "bg-white shadow-sm ring-1 ring-black/5" : "hover:bg-white/50"
+                )}
+              >
                 <Link
-                  key={item.name}
                   href={item.href}
                   className={cn(
-                    "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-all duration-200",
+                    "flex items-center gap-3 px-3 py-2 text-sm font-medium transition-colors",
                     isActive
-                      ? "bg-white text-primary shadow-sm ring-1 ring-border-light"
-                      : "text-gray-500 hover:bg-gray-100 hover:text-gray-900"
+                      ? "text-primary"
+                      : "text-gray-500 hover:text-gray-900"
                   )}
                 >
                   <item.icon className={cn("h-4 w-4", isActive ? "text-primary" : "text-gray-400")} />
                   {item.name}
                 </Link>
+              </motion.div>
               )
             })}
           </div>
@@ -84,16 +95,24 @@ export function Sidebar() {
       </nav>
 
       <div className="mt-8 px-3">
-        <div className="rounded-xl border border-border-light bg-white p-4 shadow-sm">
+        <motion.div 
+          whileHover={{ y: -2 }}
+          className="rounded-2xl border border-white/60 bg-white/50 backdrop-blur-md p-4 shadow-sm"
+        >
           <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Usage</p>
           <div className="flex items-center justify-between text-sm">
             <span className="font-medium">Credits</span>
-            <span className="text-primary font-bold">84 / 100</span>
+            <span className="text-primary font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-500">84 / 100</span>
           </div>
-          <div className="mt-3 h-2 w-full overflow-hidden rounded-full bg-gray-100">
-            <div className="h-full bg-primary rounded-full w-[84%]" />
+          <div className="mt-3 h-2 w-full overflow-hidden rounded-full bg-gray-200/50">
+            <motion.div 
+              initial={{ width: 0 }}
+              animate={{ width: "84%" }}
+              transition={{ duration: 1.5, delay: 0.5, ease: "easeOut" }}
+              className="h-full bg-gradient-to-r from-primary to-blue-500 rounded-full shadow-[0_0_10px_rgba(37,99,235,0.5)]" 
+            />
           </div>
-        </div>
+        </motion.div>
       </div>
     </div>
   )

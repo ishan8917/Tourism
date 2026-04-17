@@ -3,7 +3,7 @@
 @import "tailwindcss";
 
 :root {
-  --background: #fdfdfd;
+  --background: #fdfdff;
   --foreground: #1e293b;
   --sidebar-bg: #f8fafc;
   --border-light: #e2e8f0;
@@ -28,7 +28,10 @@
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
+  background-image: radial-gradient(rgba(15, 23, 42, 0.06) 1px, transparent 0);
+  background-size: 24px 24px;
+  background-position: -10px -10px;
   color: var(--foreground);
   font-family: var(--font-sans), sans-serif;
   -webkit-font-smoothing: antialiased;

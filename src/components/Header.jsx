@@ -21,7 +21,12 @@ export default function Header() {
   ];
 
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? 'py-4 bg-primary-900/95 backdrop-blur-md shadow-sm border-b border-white/5' : 'py-6 bg-transparent'}`}>
+    <motion.header 
+      initial={{ y: -100 }}
+      animate={{ y: 0 }}
+      transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? 'py-4 bg-[#020617]/80 backdrop-blur-xl shadow-sm border-b border-white/5' : 'py-8 bg-transparent'}`}
+    >
       <div className="container mx-auto px-8 flex justify-between items-center">
         {/* Logo */}
         <a href="#" className="flex items-center gap-2 group">
@@ -31,15 +36,25 @@ export default function Header() {
         </a>
 
         {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center gap-10">
+        <nav className="hidden md:flex items-center gap-12">
           {navLinks.map((link) => (
-            <a key={link.name} href={link.href} className="text-xs uppercase tracking-[0.2em] font-light transition-colors hover:text-gold-400 text-white/80">
+            <motion.a 
+              whileHover={{ y: -2, color: "#fff" }}
+              key={link.name} 
+              href={link.href} 
+              className="text-xs uppercase tracking-[0.2em] font-semibold transition-colors text-white/70"
+            >
               {link.name}
-            </a>
+            </motion.a>
           ))}
-          <a href="#contact" className="px-8 py-3 bg-transparent border border-gold-400/50 text-gold-400 uppercase tracking-widest text-xs hover:bg-gold-400 hover:text-black transition-all">
+          <motion.a 
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            href="#contact" 
+            className="px-8 py-3 bg-white/10 backdrop-blur-md border border-gold-400/50 text-gold-300 uppercase tracking-widest text-xs font-bold hover:bg-gold-400 hover:text-black hover:border-gold-400 transition-all shadow-[0_0_20px_rgba(250,204,21,0.1)] hover:shadow-[0_0_30px_rgba(250,204,21,0.3)] rounded-sm"
+          >
             Book Consultation
-          </a>
+          </motion.a>
         </nav>
 
         {/* Mobile Toggle */}
@@ -89,6 +104,6 @@ export default function Header() {
           </motion.div>
         )}
       </AnimatePresence>
-    </header>
+    </motion.header>
   );
 }

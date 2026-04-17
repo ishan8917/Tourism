@@ -24,3 +24,26 @@ export async function POST(req: Request) {
 
     return NextResponse.json(customer)
 }
+
+// UPDATE customer
+export async function PUT(req: Request) {
+    const body = await req.json()
+    const { id, name, email, phone, status, ltv } = body
+
+    if (!id) {
+        return NextResponse.json({ error: "Customer ID is required" }, { status: 400 })
+    }
+
+    const customer = await prisma.customer.update({
+        where: { id },
+        data: {
+            name,
+            email,
+            phone,
+            ...(status ? { status } : {}),
+            ...(ltv !== undefined ? { ltv } : {})
+        }
+    })
+
+    return NextResponse.json(customer)
+}

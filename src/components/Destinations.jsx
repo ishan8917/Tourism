@@ -20,52 +20,74 @@ const destinations = [
 
 export default function Destinations() {
   return (
-    <section id="destinations" className="py-32 bg-primary-50">
-      <div className="container mx-auto px-6 max-w-7xl">
-        <div className="text-center mb-20">
-          <span className="text-gold-500 text-xs font-light tracking-[0.2em] uppercase mb-6 block">Our Collection</span>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif text-primary-900 tracking-tight">
-            Curated <span className="italic text-primary-600">Journeys</span>
-          </h2>
+    <section id="destinations" className="py-40 bg-[#020617] text-white">
+      <div className="container mx-auto px-6 max-w-[1400px]">
+        <div className="text-center mb-32">
+          <motion.span 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 1 }}
+            className="text-gold-500 text-sm font-bold tracking-[0.3em] uppercase mb-8 block drop-shadow-[0_0_15px_rgba(250,204,21,0.2)]"
+          >
+            Our Collection
+          </motion.span>
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 1, delay: 0.2 }}
+            className="text-6xl md:text-7xl lg:text-8xl font-serif text-white tracking-tight font-bold"
+          >
+            Curated <span className="italic text-transparent bg-clip-text bg-gradient-to-r from-gold-400 to-gold-200">Journeys</span>
+          </motion.h2>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-3 gap-12 lg:gap-16">
           {destinations.map((dest, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 1, delay: index * 0.2 }}
-              className="group cursor-pointer"
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true, margin: "-150px" }}
+              transition={{ duration: 1.2, delay: index * 0.15, ease: [0.16, 1, 0.3, 1] }}
+              className="group relative cursor-pointer"
             >
-              <div className="relative aspect-[3/4] overflow-hidden mb-6">
-                <img
+              <div className="relative aspect-[3/4] overflow-hidden rounded-sm bg-zinc-900 border border-white/5">
+                <motion.img
                   src={dest.image}
                   alt={dest.title}
-                  className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                  className="w-full h-full object-cover transition-transform duration-[1.5s] ease-[0.16,1,0.3,1] group-hover:scale-110 opacity-70 group-hover:opacity-100"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-primary-900/80 via-transparent to-transparent opacity-60 mix-blend-multiply" />
-                <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-primary-900 via-primary-900/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                
+                {/* Cinematic Vignette Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-1000" />
+                
+                {/* Reveal border */}
+                <div className="absolute inset-6 border border-white/0 group-hover:border-white/20 scale-95 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-[1s] ease-[0.16,1,0.3,1]" />
 
-                <div className="absolute inset-4 border border-white/20 scale-95 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-700" />
-              </div>
-
-              <div className="text-center px-4">
-                <h3 className="text-2xl font-serif text-primary-900 mb-2">{dest.title}</h3>
-                <p className="text-primary-600 font-light text-sm tracking-wide">
-                  {dest.description}
-                </p>
+                <div className="absolute bottom-0 left-0 right-0 p-10 flex flex-col justify-end translate-y-8 group-hover:translate-y-0 transition-transform duration-[1s] ease-[0.16,1,0.3,1]">
+                  <h3 className="text-4xl lg:text-5xl font-serif text-white mb-3 font-bold">{dest.title}</h3>
+                  <p className="text-white/80 font-medium text-base tracking-wide opacity-0 group-hover:opacity-100 transition-opacity duration-700 delay-100">
+                    {dest.description}
+                  </p>
+                </div>
               </div>
             </motion.div>
           ))}
         </div>
 
-        <div className="mt-20 text-center">
-          <a href="#contact" className="inline-block border-b border-gold-500 text-primary-900 uppercase tracking-widest text-xs pb-2 hover:text-gold-600 hover:border-gold-600 transition-colors">
+        <motion.div 
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1, delay: 0.5 }}
+          className="mt-32 text-center"
+        >
+          <a href="#contact" className="inline-block border-b border-white/20 text-white uppercase tracking-[0.2em] text-[10px] pb-3 hover:text-white hover:border-white transition-all duration-300">
             Request the Full Lookbook
           </a>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

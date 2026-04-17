@@ -3,10 +3,12 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { Search, Plus, MoreHorizontal, Phone } from "lucide-react"
+import { Search, Plus, MoreHorizontal, Phone, User, Mail, Smartphone } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import { AnimatedModal } from "@/components/ui/AnimatedModal"
+import { MagicButton } from "@/components/ui/MagicButton"
 
 
 
@@ -23,7 +25,8 @@ export default function CustomersPage() {
   const [customers, setCustomers] = useState([])
   const [showForm, setShowForm] = useState(false)
   const [search, setSearch] = useState("")
-  const [activeDropdown, setActiveDropdown] = useState<number | null>(null)
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null)
+  const [editingId, setEditingId] = useState<string | null>(null)
 
   const [form, setForm] = useState({
     name: "",
@@ -32,22 +35,27 @@ export default function CustomersPage() {
   })
 
   const fetchCustomers = async() =>{
-    const res = await fetch ("/api/customers")
+    const res = await fetch ("/Tourism/dashboard/api/customers")
     const data = await res.json()
     setCustomers(data)
   }
 
   const handleSubmit = async () => {
-    const res = await fetch("api/customers", {
-      method: "POST",
+    const isEditing = !!editingId;
+    const method = isEditing ? "PUT" : "POST";
+    const payload = isEditing ? { ...form, id: editingId } : form;
+
+    const res = await fetch("/Tourism/dashboard/api/customers", {
+      method,
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify(form)
+      body: JSON.stringify(payload)
     })
 
     if(res.ok){
       setShowForm(false)
+      setEditingId(null)
       setForm({name:"", email: "", phone: ""})
       fetchCustomers();
     }
@@ -57,9 +65,9 @@ export default function CustomersPage() {
     fetchCustomers();
   }, [])
 
-  const filtered = MOCK_CUSTOMERS.filter(c => 
-    c.name.toLowerCase().includes(search.toLowerCase()) || 
-    c.email.toLowerCase().includes(search.toLowerCase())
+  const filtered = customers.filter((c: any) => 
+    c.name?.toLowerCase().includes(search.toLowerCase()) || 
+    c.email?.toLowerCase().includes(search.toLowerCase())
   )
 
   return (
@@ -81,22 +89,77 @@ export default function CustomersPage() {
               onChange={(e) => setSearch(e.target.value)}
             />
           </div>
-          <Button className="h-10 gap-2" onClick={() => setShowForm(true)}>
+          <Button className="h-10 gap-2" onClick={() => {
+            setEditingId(null)
+            setForm({name:"", email: "", phone: ""})
+            setShowForm(true)
+          }}>
             <Plus className="w-4 h-4" /> New Client
           </Button>
         </div>
       </div>
-      {showForm && (
-        <div className="bg-white p-4 rounded shadow mt-4">
-          <input placeholder="Name" onChange={(e) => setForm({...form, name: e.target.value})}/>
-          <input placeholder="Email" onChange={(e) => setForm({...form, email: e.target.value})}/>
-          <input placeholder="Phone" onChange={(e) => setForm({...form, phone: e.target.value})}/>
+      <AnimatedModal 
+        isOpen={showForm} 
+        onClose={() => {
+          setShowForm(false);
+          setEditingId(null);
+          setForm({name:"", email: "", phone: ""});
+        }} 
+        title={editingId ? "Edit Client Details" : "Add New Client"}
+      >
+        <div className="space-y-5">
+          <div className="space-y-1 relative">
+            <label className="text-sm font-medium text-gray-700 ml-1">Full Name</label>
+            <div className="relative">
+              <User className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
+              <input 
+                className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none"
+                placeholder="e.g. John Doe" 
+                value={form.name} 
+                onChange={(e) => setForm({...form, name: e.target.value})}
+              />
+            </div>
+          </div>
+          
+          <div className="space-y-1 relative">
+            <label className="text-sm font-medium text-gray-700 ml-1">Email Address</label>
+            <div className="relative">
+              <Mail className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
+              <input 
+                className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none"
+                placeholder="john@example.com" 
+                type="email"
+                value={form.email} 
+                onChange={(e) => setForm({...form, email: e.target.value})}
+              />
+            </div>
+          </div>
 
-          <button onClick={handleSubmit}>Save</button>
-          <button onClick={() => setShowForm(false)}>Cancel</button>
-        </div> 
-        
-      )}
+          <div className="space-y-1 relative">
+            <label className="text-sm font-medium text-gray-700 ml-1">Phone Number</label>
+            <div className="relative">
+              <Smartphone className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
+              <input 
+                className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none"
+                placeholder="+1 (555) 000-0000" 
+                value={form.phone} 
+                onChange={(e) => setForm({...form, phone: e.target.value})}
+              />
+            </div>
+          </div>
+
+          <div className="flex gap-3 pt-4">
+            <MagicButton variant="secondary" className="flex-1" onClick={() => {
+              setShowForm(false);
+              setEditingId(null);
+              setForm({name:"", email: "", phone: ""});
+            }}>Cancel</MagicButton>
+            <MagicButton variant="primary" className="flex-1" onClick={handleSubmit}>
+              {editingId ? "Save Changes" : "Create Client"}
+            </MagicButton>
+          </div>
+        </div>
+      </AnimatedModal>
 
       <div className="bg-white border border-border-light rounded-2xl shadow-sm overflow-hidden">
         <table className="w-full text-left border-collapse">
@@ -110,7 +173,7 @@ export default function CustomersPage() {
             </tr>
           </thead>
           <tbody className="divide-y divide-border-light">
-            {customers.map((c: any) => (
+            {filtered.map((c: any) => (
               <tr key={c.id} className="hover:bg-slate-50 transition-colors">
                 <td className="px-6 py-4">
                   <div className="flex flex-col">
@@ -128,7 +191,7 @@ export default function CustomersPage() {
                 <td className="px-6 py-4">
                   {c.status === "VIP" && <Badge className="bg-purple-100 text-purple-800 border-none hover:bg-purple-100">VIP Client</Badge>}
                   {c.status === "Active" && <Badge variant="success" className="bg-green-100 text-green-800 border-none hover:bg-green-100">Active</Badge>}
-                  {c.status === "Lead" && <Badge variant="secondary" className="bg-gray-100 text-gray-800 border-none hover:bg-gray-100">New Lead</Badge>}
+                  {c.status === "New Lead" && <Badge variant="secondary" className="bg-gray-100 text-gray-800 border-none hover:bg-gray-100">New Lead</Badge>}
                 </td>
                 <td className="px-6 py-4 font-medium text-gray-900">
                   {c.ltv}
@@ -145,7 +208,12 @@ export default function CustomersPage() {
                     <>
                       <div className="fixed inset-0 z-10" onClick={() => setActiveDropdown(null)} />
                       <div className="absolute right-8 top-10 w-36 bg-white rounded-lg shadow-hover border border-border-light z-20 py-1 flex flex-col text-sm animate-fade-in">
-                        <button className="text-left px-4 py-2 hover:bg-gray-50 text-gray-700 w-full" onClick={() => { setActiveDropdown(null); alert("Edit Client " + c.name) }}>Edit Client</button>
+                        <button className="text-left px-4 py-2 hover:bg-gray-50 text-gray-700 w-full" onClick={() => { 
+                          setActiveDropdown(null); 
+                          setEditingId(c.id);
+                          setForm({ name: c.name || "", email: c.email || "", phone: c.phone || "" });
+                          setShowForm(true);
+                        }}>Edit Client</button>
                         <button className="text-left px-4 py-2 hover:bg-gray-50 text-gray-700 w-full" onClick={() => { setActiveDropdown(null); alert("View History") }}>View History</button>
                         <hr className="my-1 border-gray-100" />
                         <button className="text-left px-4 py-2 hover:bg-red-50 text-red-600 w-full" onClick={() => { setActiveDropdown(null); alert("Delete Client") }}>Archive</button>

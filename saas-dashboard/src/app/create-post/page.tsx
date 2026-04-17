@@ -2,10 +2,11 @@
 
 import { useState } from "react"
 import { generatePost } from "@/lib/postGenerator"
-import { Card, CardContent } from "@/components/ui/card"
+import { GlassCard } from "@/components/ui/GlassCard"
 import { Textarea } from "@/components/ui/textarea"
-import { Button } from "@/components/ui/button"
+import { MagicButton } from "@/components/ui/MagicButton"
 import { Bot, Loader2 } from "lucide-react"
+import { motion } from "framer-motion"
 
 export default function CreatePost() {
     const [input, setInput] = useState("")
@@ -28,37 +29,38 @@ export default function CreatePost() {
                 <p className="text-gray-500">Let the AI Travel Agent draft your next high-converting social media post.</p>
             </div>
 
-            <Card className="border-0 shadow-soft bg-white">
-                <CardContent className="p-8">
-                    <div className="space-y-4">
-                        <label className="text-sm font-semibold text-gray-700">What are you promoting?</label>
-                        <Textarea
-                            value={input}
-                            onChange={(e) => setInput(e.target.value)}
-                            placeholder="Describe the travel post (e.g., Goa trip for couples under ₹15k with luxury vibes)"
-                            className="min-h-[120px] text-base resize-none border-gray-200 focus:border-primary focus:ring-1 focus:ring-primary shadow-sm"
-                        />
-                        <div className="flex justify-end">
-                            <Button
-                                onClick={handleGenerate}
-                                disabled={isLoading || !input.trim()}
-                                className="gap-2 h-11 px-6 shadow-md"
-                            >
-                                {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Bot className="w-5 h-5" />}
-                                Generate Post
-                            </Button>
-                        </div>
+            <GlassCard className="p-8 border-white/60">
+                <div className="space-y-4">
+                    <label className="text-sm font-semibold text-gray-700">What are you promoting?</label>
+                    <Textarea
+                        value={input}
+                        onChange={(e) => setInput(e.target.value)}
+                        placeholder="Describe the travel post (e.g., Goa trip for couples under ₹15k with luxury vibes)"
+                        className="min-h-[120px] text-base resize-none border-gray-200/50 bg-white/50 backdrop-blur-md focus:bg-white focus:border-primary focus:ring-1 focus:ring-primary shadow-inner rounded-xl"
+                    />
+                    <div className="flex justify-end pt-2">
+                        <MagicButton
+                            onClick={handleGenerate}
+                            disabled={isLoading || !input.trim()}
+                        >
+                            {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Bot className="w-5 h-5" />}
+                            Generate Post
+                        </MagicButton>
                     </div>
-                </CardContent>
-            </Card>
+                </div>
+            </GlassCard>
 
             {output && (
-                <div className="space-y-6 animate-fade-in">
-                    <h2 className="text-xl font-bold tracking-tight border-b border-border-light pb-2">Generated Result</h2>
-                    <pre className="whitespace-pre-wrap bg-white border border-border-light shadow-sm p-6 rounded-xl font-sans text-gray-800 leading-relaxed">
+                <motion.div 
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="space-y-6"
+                >
+                    <h2 className="text-xl font-bold tracking-tight border-b border-gray-200/50 pb-2">Generated Result</h2>
+                    <pre className="whitespace-pre-wrap bg-white/60 backdrop-blur-md border border-white/40 shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-8 rounded-2xl font-sans text-gray-800 leading-relaxed">
                         {output}
                     </pre>
-                </div>
+                </motion.div>
             )}
         </div>
     )
